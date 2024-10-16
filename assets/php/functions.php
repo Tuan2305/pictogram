@@ -93,7 +93,7 @@ $response['status'] = true;
         $response['msg'] = 'username id is already registered';
         $response['status'] = false;
         $response['field'] = 'username';
-    }
+    }   
     return $response;
      
 
@@ -176,6 +176,21 @@ function createUser($data){
     $query = "INSERT INTO users(first_name, last_name, gender, email, username, password)";
     $query.= "VALUES ('$first_name','$last_name', $gender, '$email','$username','$password')";
     return mysqli_query($db, $query);
+}
+
+// function for verify email
+function verifyEmail($email){
+    global $db;
+
+    $query = "UPDATE users SET ac_status = 1 WHERE email = '$email'";
+    return mysqli_query($db,$query);
+}
+// function for verify email
+function resetPassword($email, $password){
+    global $db;
+    $password = md5($password);
+    $query = "UPDATE users SET password = '$password' WHERE email = '$email'";
+    return mysqli_query($db,$query);
 }
 
 

@@ -1,4 +1,4 @@
-
+<?php global $user;?>
     <div class="container col-9 rounded-0 d-flex justify-content-between">
         <div class="col-8">
             <div class="card mt-4">
@@ -153,12 +153,12 @@
 
         <div class="col-4 mt-4 p-3">
             <div class="d-flex align-items-center p-2">
-                <div><img src="./img/profile.jpg" alt="" height="60" class="rounded-circle border">
+                <div><img src="assets/images/profile/<?=$user['profile_pic']?>" alt="" height="60" class="rounded-circle border">
                 </div>
                 <div>&nbsp;&nbsp;&nbsp;</div>
-                <div class="d-flex flex-column justify-content-center align-items-center">
-                    <h6 style="margin: 0px;">Pham Minh Tuan</h6>
-                    <p style="margin:0px;" class="text-muted">@challotcan</p>
+                <div class="d-flex flex-column justify-content-center align-items-c-enter">
+                    <h6 style="margin: 0px;"><?=$user['first_name']?><?=$user['last_name']?></h6>
+                    <p style="margin:0px;" class="text-muted">@<?=$user['username']?></p>
                 </div>
             </div>
             <div>

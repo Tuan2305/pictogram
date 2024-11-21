@@ -131,13 +131,51 @@ if (isset($_GET['changepassword'])){
     if (!$_POST['password']){
         $response['msg'] = 'enter your new password !';
         $response['field'] = 'password';
-     $_SESSION['error'] = $response;
-     header('location:../../?forgotpassword');
+        $_SESSION['error'] = $response;
+        header('location:../../?forgotpassword');
     }
     else{
         resetPassword($_SESSION['forgot_email'], $_POST['password']);
-    header('location:../../?reseted');
+        session_destroy();
+        header('location:../../?reseted');
 
     }
     
+}#
+if (isset($_GET['updateprofile'])){
+
+    $response=validateUpdateForm($_POST,$_FILES['profile_pic']);
+    if ($response['status']){
+        if(updateProfile($_POST,$_FILES['profile_pic'])){
+            header("location:../../?editprofile"); 
+        }
+        else{
+            echo"something is wrong";
+        }        
+    }
+    else{
+        $_SESSION['error'] = $response;
+      
+        header("location:../../?editprofile"); 
+    }  
 }
+
+// for managing add post
+if (isset($_GET['addpost'])){
+    $response = validatePostImage($_FILES['post_img']);
+
+    if($response['status']){
+        if (creatPost($_POST,$_FILES['post_img'])){
+            header("location:../../?new_post_added");
+        }
+        else{
+            echo "something went wrong";
+        }
+    }
+    else{
+        $_SESSION['error'] = $response;
+        header("location:../../");
+    }
+
+}
+

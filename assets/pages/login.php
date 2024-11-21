@@ -1,34 +1,43 @@
+<div class="login d-flex justify-content-center align-items-center vh-100 bg-light  ">
+    <div class="col-4 bg-white border rounded p-4 shadow-sm">
+        <form method="post" action="assets/php/actions.php?login">
+            <div class="d-flex justify-content-center">
+                <img class="mb-4" src="assets/images/pictogram.png" alt="" height="50">
+            </div>
+            
 
-    <div class="login">
-        <div class="col-4 bg-white border rounded p-4 shadow-sm">
-            <form method = "post" action ="assets/php/actions.php?login">
-                <div class="d-flex justify-content-center">
+            <div class="form-floating mb-3">
+                <input type="text" name="username_email" value="<?= showFormData('username_email') ?>" 
+                    class="form-control rounded-0 border-secondary" placeholder="Username or Email">
+                <label for="floatingInput" class="text-secondary">Username or Email</label>
+            </div>
+            <?= showError('username_email') ?>
 
-                    <img class="mb-4" src="assets/images/pictogram.png" alt="" height="45">
-                </div>
-                <h1 class="h5 mb-3 fw-normal">Please sign in</h1>
+            <div class="form-floating mb-3">
+                <input type="password" name="password" class="forxm-control rounded-0 border-secondary" 
+                    id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword" class="text-secondary">Password</label>
+            </div>
+            <?= showError('password') ?>
+            <?= showError('checkuser') ?>
 
-                <div class="form-floating">
-                    <input type="text" name = "username_email" value="<?= showFormData('username_email')?>" class="form-control rounded-0" placeholder="username/email">
-                    <label for="floatingInput">username/email</label>
-                </div>
-                <?=showError('username_email')?>
+            <button class="btn btn-primary w-100 rounded-pill mt-3" type="submit">Log In</button>
 
-                <div class="form-floating mt-1">
-                    <input type="password" name = "password" class="form-control rounded-0" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">password</label>
-                </div>
-                <?=showError('password')?>
-                <?=showError('checkuser')?>
+            <div class="text-center my-3 text-muted">OR</div>
 
-                <div class="mt-3 d-flex justify-content-between align-items-center">
-                    <button class="btn btn-primary" type="submit">Sign in</button>
-                    <a href="?signup" class="text-decoration-none">Create New Account</a>
+            <button class="btn btn-primary w-100 rounded-pill">
+                <i class="bi bi-facebook"></i> Log in with Facebook
+            </button>
 
+            <a href="?forgotpassword&newfp" class="text-decoration-none d-block text-center mt-3 text-primary small">
+                Forgot Password?
+            </a>
+        </form>
 
-                </div>
-                <a href="?forgotpassword&newfp" class="text-decoration-none">Forgot password ?</a>
-            </form>
+        <div class="text-center mt-4 border-top pt-3">
+            <p class="mb-0">Don't have an account? 
+                <a href="?signup" class="text-decoration-none text-primary fw-bold">Sign up</a>
+            </p>
         </div>
     </div>
-
+</div>

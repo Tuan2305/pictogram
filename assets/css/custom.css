@@ -1,6 +1,7 @@
 body {
-    background-color: #F5F9F9;
-    /* background-size: cover; */
+    background-color: #fafafa; /* Màu nền giống Instagram */
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
 .login {
@@ -9,4 +10,93 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.login .col-4 {
+    max-width: 350px;
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+img {
+    display: block;
+    margin: 0 auto 20px;
+}
+
+h1 {
+    font-size: 16px;
+    color: #8e8e8e;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-floating {
+    margin-bottom: 10px;
+}
+
+.form-floating input {
+    border: 1px solid #dbdbdb;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.form-floating label {
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-left: 5px;
+}
+
+button {
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    padding: 10px 0;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #007bbf;
+}
+
+.text-decoration-none {
+    font-size: 14px;
+    color: #0095f6;
+}
+
+.text-decoration-none:hover {
+    text-decoration: underline;
+}
+
+.text-center {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.border-top {
+    margin-top: 20px;
+    border-top: 1px solid #dbdbdb;
+    padding-top: 10px;
+}
+
+a.text-primary {
+    color: #0095f6;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.text-primary:hover {
+    text-decoration: underline;
+}
+
+.small {
+    font-size: 12px;
+    color: #8e8e8e;
 }

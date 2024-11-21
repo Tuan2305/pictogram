@@ -8,13 +8,13 @@
 
             <div class="form-floating mb-3">
                 <input type="text" name="username_email" value="<?= showFormData('username_email') ?>" 
-                    class="form-control rounded-0 border-secondary" placeholder="Username or Email">
-                <label for="floatingInput" class="text-secondary">Username or Email</label>
+                    class="form-control rounded-0 border-secondary" placeholder="Username or Email" id="username_email">
+                <label for="username_email" class="text-secondary">Username or Email</label>
             </div>
             <?= showError('username_email') ?>
 
             <div class="form-floating mb-3">
-                <input type="password" name="password" class="forxm-control rounded-0 border-secondary" 
+                <input type="password" name="password" class="form-control rounded-0 border-secondary" 
                     id="floatingPassword" placeholder="Password">
                 <label for="floatingPassword" class="text-secondary">Password</label>
             </div>

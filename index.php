@@ -1,4 +1,4 @@
-<?php
+ <?php
 require_once 'assets/php/functions.php';
 
 
@@ -9,7 +9,7 @@ if (isset($_GET['newfb'])){
 }
 if(isset($_SESSION['Auth'])){
     $user = getUser($_SESSION['userdata']['id']);
-    $posts = getPost();
+    $posts = filterPosts();
     $follow_suggestions= filterFollowSuggestions();
 }
 
@@ -46,10 +46,11 @@ elseif(isset($_SESSION['Auth']) && isset($_GET['u'])  && $user['ac_status'] ==1 
     }
     else{
         $profile_post = getPostById($profile['id']);
-      
+        $profile['followers'] = getFollowers($profile['id']);
+        $profile['following'] = getFollowing($profile['id']);
         showPage('header', ['page_title' => $profile['first_name'].' '.$profile['last_name'] ]);
-    showPage('navbar');
-    showPage('profile');
+        showPage('navbar');
+        showPage('profile');
 
     }
     

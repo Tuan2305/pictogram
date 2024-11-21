@@ -16,6 +16,13 @@ function followUser($user_id){
     return mysqli_query($db, $query);
 }
 
+//function for unfollow the user
+function unfollowUser($user_id){
+    global $db;
+    $current_user = $_SESSION['userdata']['id'];
+    $query = "DELETE FROM follow_list WHERE follower_id = $current_user && user_id = $user_id";
+    return mysqli_query($db, $query);
+}
 // function for show errors
 function showError($field){
     if (isset($_SESSION['error'])){
@@ -190,7 +197,7 @@ function filterFollowSuggestions(){
     $list = getFollowSuggestions();
     $filter_list = array();
     foreach($list as $user){
-        if (!checkFollowStatus($user['id'])){
+        if (!checkFollowStatus($user['id']) && count($filter_list)<6){
             $filter_list[] = $user;
         }
     }
@@ -220,6 +227,20 @@ function getFollowSuggestions(){
     return mysqli_fetch_all($run,true);
 }
 
+//get follower count
+function getFollowers($user_id){
+    global $db;
+    $query = "SELECT * FROM follow_list WHERE user_id= $user_id ";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_all($run,true);
+}
+
+function getFollowing($user_id){
+    global $db;
+    $query = "SELECT * FROM follow_list WHERE follower_id= $user_id ";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_all($run,true);
+}
 // for getting userdata by username
 function getUserByUsername($username){
     global $db;
@@ -240,13 +261,13 @@ function getPost(){
     
 }
 
-// for filtering the suggestion list
+// for getting post dynamically
 function filterPosts(){
     $list = getPost();
     $filter_list = array();
-    foreach($list as $user){
-        if (!checkFollowStatus($user['id'])){
-            $filter_list[] = $user;
+    foreach($list as $post){
+        if (checkFollowStatus($post['user_id']) || $post['user_id'] == $_SESSION['userdata']['id']){
+            $filter_list[] = $post;
         }
     }
     return $filter_list;
@@ -362,7 +383,7 @@ function validateUpdateForm($form_data,$image_data){
     }
     $profile_pic = "";
     if($imagedata['name']){
-        $image_name =time().basename($imagedata['name']);
+        $image_name =uniqid().basename($imagedata['name']);
         $image_dir ="../images/profile/$image_name";
         move_uploaded_file($imagedata['tmp_name'],$image_dir);
         $profile_pic=",profile_pic= '$image_name'";

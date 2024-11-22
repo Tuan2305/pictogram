@@ -1,4 +1,6 @@
-<?php global $user;?>
+<?php 
+global $user;
+?>
     <div class="container col-9 rounded-0 d-flex justify-content-between">
         <div class="col-12 bg-white border rounded p-4 mt-4 shadow-sm">
             <form method ="post" action ="assets/php/actions.php?updateprofile" enctype="multipart/form-data">
@@ -10,7 +12,7 @@
                 <?php
                 if(isset($_GET['success'])){
                     ?>
-                    <p class="text-success">Profile is updated </p>
+                    <p class="text-success">Profile is updated !</p>
                     <?php
                 }   
                 ?>
@@ -71,8 +73,8 @@
 
                 <?=showError('username')?>
                 <div class="form-floating mt-1">
-                    <input type="password" name="password" class="form-control rounded-0" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">new password</label>
+                    <input type="password" name="password" class="form-control rounded-0" id="floatingPassword" placeholder="Password" required>
+                    <label for="floatingPassword">New password</label>
                 </div>
 
                 <div class="mt-3 d-flex justify-content-between align-items-center">

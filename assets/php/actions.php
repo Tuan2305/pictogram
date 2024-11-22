@@ -143,11 +143,11 @@ if (isset($_GET['changepassword'])){
     
 }#
 if (isset($_GET['updateprofile'])){
-
+    
     $response=validateUpdateForm($_POST,$_FILES['profile_pic']);
     if ($response['status']){
         if(updateProfile($_POST,$_FILES['profile_pic'])){
-            header("location:../../?editprofile"); 
+            header("location:../../?editprofile&success"); 
         }
         else{
             echo"something is wrong";

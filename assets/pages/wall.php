@@ -74,7 +74,7 @@ foreach($posts as $post){
                 <?php
                 foreach($follow_suggestions as $suser){
                     ?>
-                    <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-center p-2">
                         <div><img src="assets/images/profile/<?=$suser['profile_pic']?>" alt="" height="40" class="rounded-circle border">
                         </div>

@@ -337,7 +337,7 @@ function validateUpdateForm($form_data,$image_data){
         }
      
       
-        if (isUsernameRegisteredByOther($form_data['username'])){
+        if (isUsernameRegisteredByOther($form_data['username']) && $form_data['username'] != $_SESSION['userdata']['username']) {
             $response['msg'] =$form_data['username']. "is already registered";
             $response['status'] = false;
             $response['field'] = 'username';
@@ -365,7 +365,7 @@ function validateUpdateForm($form_data,$image_data){
     };
 
     // function updatrProfile()
-    function updateProfile($data,$imagedata){
+function updateProfile($data,$imagedata){
         global $db;
         $first_name = mysqli_real_escape_string($db, $data['first_name']);
     $last_name = mysqli_real_escape_string($db, $data['last_name']);
@@ -383,14 +383,31 @@ function validateUpdateForm($form_data,$image_data){
     }
     $profile_pic = "";
     if($imagedata['name']){
-        $image_name =uniqid().basename($imagedata['name']);
+        if (!is_dir('../images/profile/')) {
+            mkdir('../images/profile/', 0777, true);
+        }
+        $image_name =time().basename($imagedata['name']);
         $image_dir ="../images/profile/$image_name";
-        move_uploaded_file($imagedata['tmp_name'],$image_dir);
+        if (!move_uploaded_file($imagedata['tmp_name'], $image_dir)) {
+            echo "Failed to upload the profile picture.";
+        echo "Tmp name: " . $imagedata['tmp_name'];
+        echo "Target directory: " . $image_dir;
+            die("Failed to upload the profile picture.");
+        }
         $profile_pic=",profile_pic= '$image_name'";
+        $_SESSION['userdata']['profile_pic'] = $image_name;
       
     }
         $query = "UPDATE users SET first_name = '$first_name', last_name = '$last_name',username = '$username', password = '$password' $profile_pic WHERE id=".$_SESSION['userdata']['id'];
-        return mysqli_query($db,$query); 
+        if (!mysqli_query($db, $query)) {
+            die("Query failed: " . mysqli_error($db));
+        }
+    
+        $_SESSION['userdata']['first_name'] = $first_name;
+        $_SESSION['userdata']['last_name'] = $last_name;
+        $_SESSION['userdata']['username'] = $username;
+    
+        return true;
     
     }
     

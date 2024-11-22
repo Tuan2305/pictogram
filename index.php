@@ -31,8 +31,8 @@ elseif(isset($_SESSION['Auth']) && $user['ac_status'] == 2 && !$pagecount){
 }
 
 elseif(isset($_SESSION['Auth']) && isset($_GET['editprofile'])  && $user['ac_status'] ==1  ){
-    showPage('header', ['page_title' => 'Editprofile']);
-    showPage('navbar');
+    showPage('header', ['page_title' => 'Edit Profile']);
+    showPage('navbar'); 
     showPage('edit_profile');
 
 }

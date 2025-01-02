@@ -12,7 +12,7 @@ function showPage($page, $data=""){
 function followUser($user_id){
     global $db;
     $current_user = $_SESSION['userdata']['id'];
-    $query = "INSERT INTO follow_list(follower_id,user_id) VALUE($current_user, $user_id)";
+    $query = "INSERT INTO follow_list(follower_id,user_id) VALUES($current_user, $user_id)";
     return mysqli_query($db, $query);
 }
 

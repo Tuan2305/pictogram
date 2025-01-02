@@ -3,22 +3,17 @@ global $user;
 global $posts;
 global $follow_suggestions;
 ?>
-
     <div class="container col-9 rounded-0 d-flex justify-content-between">
-        <div class="col-8">
-            
+        <div class="col-8">  
             <?php   
             showError('post_img');
             if (count($posts) < 1){
                 echo "<p class = 'p-2 bg-white border rounder text-center mt-3'>Follow someone or Add new post</p>";
-            
             }
-            
 foreach($posts as $post){
                     ?>
                     <div class="card mt-4">
                 <div class="card-title d-flex justify-content-between  align-items-center">
-
                     <div class="d-flex align-items-center p-2">
                         <img src="assets/images/profile/<?=$post['profile_pic']?>" alt="" height="30" class="rounded-circle border">&nbsp;&nbsp;<a href = '?u=<?=$post['username']?>' class ="text-decoration-none text-dark" ><?=$post['first_name']?><?=$post['last_name']?></a>
                   

@@ -52,7 +52,7 @@ $(".unfollowbtn").click(function(){
     var button =this;
     $(button).attr('disabled', true);
 
-    $.ajax({
+    $.ajax({ 
         url: 'assets/php/ajax.php?unfollow',
         method: 'post',
         dataType:'json',

@@ -13,8 +13,6 @@ if(isset($_GET['follow'])){
     }
     echo json_encode($response);
 }
-
-
 if(isset($_GET['unfollow'])){
     $user_id = $_POST['user_id'];
     if(unfollowUser($user_id)){

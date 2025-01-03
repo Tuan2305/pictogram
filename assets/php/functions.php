@@ -16,6 +16,37 @@ function followUser($user_id){
     return mysqli_query($db, $query);
 }
 
+//function for like post
+function like($post_id){
+    global $db;
+    $current_user = $_SESSION['userdata']['id'];
+    $query = "INSERT INTO likes(post_id,user_id) VALUES($post_id, $current_user)";
+    return mysqli_query($db, $query);
+}
+
+// funxtion for unlike post
+function unlike($post_id){
+    global $db;
+    $current_user = $_SESSION['userdata']['id'];
+    $query = "DELETE FROM likes WHERE  user_id = $current_user && post_id = $post_id";
+    return mysqli_query($db, $query);
+}
+ 
+// function for check like status
+function checkLikeStatus($post_id){
+    global $db;
+    $current_user = $_SESSION['userdata']['id'];
+    $query = "SELECT count(*) as row FROM likes WHERE user_id = $current_user && post_id = $post_id";
+    $run = mysqli_query($db,$query);
+    if ($run) { // Kiểm tra xem truy vấn có thành công hay không
+        $result = mysqli_fetch_assoc($run); // Lấy dữ liệu hàng đầu tiên dưới dạng mảng kết hợp
+        return $result['row']; // Trả về giá trị của cột 'row'
+    }
+    return false; // Trả về false nếu truy vấn không thành công
+}
+
+
+
 //function for unfollow the user
 function unfollowUser($user_id){
     global $db;

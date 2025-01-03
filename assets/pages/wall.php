@@ -23,7 +23,25 @@ foreach($posts as $post){
                     </div>
                 </div>
                 <img src="assets/images/posts/<?=$post['post_img']?>" class="" alt="...">
-                <h4 style="font-size: x-larger" class="p-2 border-bottom"><i class="bi bi-heart"></i>&nbsp;&nbsp;<i
+                <h4 style="font-size: x-larger" class="p-2 border-bottom">
+
+                <?php
+                if (checkLikeStatus($post['id'])){
+                    ?>
+                    <i class="bi bi-heart-fill unlike_btn" data-user-id="<?=$user['id']?>" data-post-id = "<?=$post['id']?>"></i>
+                    <?php
+                }
+                else{
+                    ?>
+                    <i class="bi bi-heart like_btn" data-user-id="<?=$user['id']?>" data-post-id = "<?=$post['id']?>"></i>
+                    <?php
+
+                }
+
+                ?>
+
+                    <i class="bi bi-heart like_btn" data-user-id="<?=$user['id']?>" data-post-id = "<?=$post['id']?>"></i>
+                    &nbsp;&nbsp;<i
                         class="bi bi-chat-left"></i>
                 </h4>
                     <?php

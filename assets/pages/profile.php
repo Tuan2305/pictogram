@@ -32,7 +32,7 @@ global $user;
                 <div class="d-flex gap-2 align-items-center my-3">
                     <a class="btn btn-sm btn-primary"><i class="bi bi-file-post-fill"></i> <?=count($profile_post)?> Posts</a>
                     <a class="btn btn-sm btn-primary" data-bs-toggle='modal' data-bs-target="#follower_list"><i class="bi bi-people-fill"></i> <?=count($profile['followers'])?> Followers</a>
-                    <a class="btn btn-sm btn-primary" data-bs-toggle='modal' data-bs-target="#follower_list"><i class="bi bi-person-fill"></i> <?=count($profile['following'])?> Following</a>
+                    <a class="btn btn-sm btn-primary" data-bs-toggle='modal' data-bs-target="#following_list"><i class="bi bi-person-fill"></i> <?=count($profile['following'])?> Following</a>
                 </div>
 
                 <?php
@@ -118,7 +118,7 @@ global $user;
     </div>
 </div>
 
-<!-- Modal for followers -->
+<!-- this is for followers list -->
 <div class="modal fade" id="follower_list" tabindex="-1" aria-labelledby="follower_list_Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -162,33 +162,48 @@ global $user;
     </div>
 </div>
 
-<!-- this is for followers list -->
 
-<div class="modal fade" id="follower_list" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- this is for following list -->
+<div class="modal fade" id="following_list" tabindex="-1" aria-labelledby="follower_list_Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add New Post</h5>
+                <h5 class="modal-title">Following</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="" style = "display:none" id = "post_img" class="w-100 rounded border">
-                <form method="post" action="assets/php/actions.php?addpost" enctype="multipart/form-data">
-                    <div class="my-3">
-
-                        <input class="form-control" name = "post_img" type="file" id="select_post_img">
+                <?php
+                foreach ($profile['following'] as $f) {
+                    $fuser = getUser($f['user_id']);
+                    $fbtn = '';
+                    if (checkFollowStatus($f['user_id'])) {
+                        $fbtn = '<button class="btn btn-sm btn-danger unfollowbtn" data-user-id =' . $fuser['id'] . '>Unfollow</button>';
+                    } else if ($user['id'] == $f['user_id']) {
+                        $fbtn = '';
+                    } else {
+                        $fbtn = '<button class="btn btn-sm btn-primary followbtn" data-user-id =' . $fuser['id'] . '>Follow</button>';
+                    }
+                ?>
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center p-2">
+                            <div><img src="assets/images/profile/<?=$fuser['profile_pic']?>" alt="" height="40" class="rounded-circle border"></div>
+                            <div>&nbsp;&nbsp;</div>
+                            <div class="d-flex flex-column justify-content-center">
+                                <a href='?u=<?=$fuser['username']?>' class="text-decoration-none text-dark">
+                                    <h6 style="margin: 0px; font-size: small;"><?=$fuser['first_name']?> <?=$fuser['last_name']?></h6>
+                                </a>
+                                <p style="margin:0px;font-size:small" class="text-muted">@<?=$fuser['username']?></p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <?=$fbtn?>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Say Something</label>
-                        <textarea name = "post_text" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
-                    </div>
-                   
-            
-                <button type="submit" class="btn btn-primary">Post</button>
-            
-                </form>
+                <?php
+                }
+                ?>
             </div>
-            
         </div>
-  </div>
+    </div>
 </div>
+

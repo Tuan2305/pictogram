@@ -89,9 +89,11 @@ $(".like_btn").click(function(){
             console.log(response);
             if(response.status){
                 $(button).attr('disabled', false);
-                $(button).attr('class', 'bi bi-heart-fill unlike_btn');
+                // $(button).html('<i class ="bi bi-heart-fill" ></i> Liked');
+                $(button).hide();
+                $(button).siblings('.unlike_btn').show();
             }
-            else{
+            else{ 
                 $(button).attr('disabled', false);
                 alert('something is wrong, try again after sometime');
             }
@@ -115,7 +117,8 @@ $(".unlike_btn").click(function(){
             console.log(response);
             if(response.status){
                 $(button).attr('disabled', false);
-                $(button).attr('class', 'bi bi-heart like_btn');
+                $(button).hide();
+                $(button).siblings('.like_btn').show();
 
             }
             else{
@@ -132,3 +135,4 @@ $(".unlike_btn").click(function(){
 
 
 
+    

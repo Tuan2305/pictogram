@@ -26,7 +26,7 @@ if(isset($_GET['unfollow'])){
 
 if(isset($_GET['like'])){
     $post_id = $_POST['post_id'];
-    if(checkLikeStatus($post_id)){
+     if(!checkLikeStatus($post_id)){
         if(like($post_id)){
             $response['status'] = true;
         }

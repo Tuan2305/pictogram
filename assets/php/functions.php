@@ -24,7 +24,7 @@ function like($post_id){
     return mysqli_query($db, $query);
 }
 
-// funxtion for unlike post
+// function for unlike post
 function unlike($post_id){
     global $db;
     $current_user = $_SESSION['userdata']['id'];
@@ -38,14 +38,18 @@ function checkLikeStatus($post_id){
     $current_user = $_SESSION['userdata']['id'];
     $query = "SELECT count(*) as row FROM likes WHERE user_id = $current_user && post_id = $post_id";
     $run = mysqli_query($db,$query);
-    if ($run) { // Kiểm tra xem truy vấn có thành công hay không
-        $result = mysqli_fetch_assoc($run); // Lấy dữ liệu hàng đầu tiên dưới dạng mảng kết hợp
-        return $result['row']; // Trả về giá trị của cột 'row'
-    }
-    return false; // Trả về false nếu truy vấn không thành công
+    
+    $result = mysqli_fetch_assoc($run); // Lấy dữ liệu hàng đầu tiên dưới dạng mảng kết hợp
+    return $result['row']; // Trả về giá trị của cột 'row'
 }
 
-
+// function for getting likes count
+function getLikes($post_id){
+    global $db;
+    $query = "SELECT * FROM likes WHERE post_id= $post_id ";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_all($run,true);
+}
 
 //function for unfollow the user
 function unfollowUser($user_id){

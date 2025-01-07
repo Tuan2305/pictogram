@@ -85,12 +85,33 @@ global $user;
                                     </div>
                                 </div>
 
+
                                 <div class="flex-fill align-self-stretch overflow-auto" id="comment-section<?=$post['id']?>" style="height: 100px;">
                                     <?php
                                     $comments = getComments($post['id']);
+                                    if (count($comments) < 1) {
+                                    ?>
+                                        <p class="text-center text-muted">No comments yet</p>
+                                    <?php
+                                    }
+
                                     foreach ($comments as $comment) {
                                         $cuser = getUser($comment['user_id']);
-                                        // Render comments
+                                        ?>
+                                        <div class="d-flex align-items-center p-2">
+                                            <div>
+                                                <img src="assets/images/profile/<?=$cuser['profile_pic']?>" alt="" height="40" class="rounded-circle border">
+                                            </div>
+                                            <div>&nbsp;&nbsp;</div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                              
+                                                <h6 style="margin: 0px; font-size: small;"><a href="?u=<?=$cuser['username']?>" class = "text-decoration-none text-dark">@<?=$cuser['username']?></a></h6>
+                                    
+                                                <p style="margin:0px;font-size:small" class="text-muted"><?=$comment['comment']?></p>
+                                                
+                                            </div>
+                                        </div>
+                                        <?php
                                     }
                                     ?>
                                 </div>

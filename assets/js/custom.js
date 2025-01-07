@@ -142,6 +142,7 @@ $(".add-comment").click(function(){
     }
 
     var post_id_v =$(this).data('postId');
+    var cs = $(this).data('cs');
     var button =this;
     $(button).attr('disabled', true);
     $(button).siblings('.comment-input').attr('disabled', true);  
@@ -159,6 +160,8 @@ $(".add-comment").click(function(){
                 $(button).attr('disabled', false);
                 $(button).siblings('.comment-input').attr('disabled', false);
                 $(button).siblings('.comment-input').val('');
+                
+                $("#" + cs).append(response.comment);
             }
             else{
                 $(button).attr('disabled', false);

@@ -45,12 +45,15 @@ foreach($posts as $post){
                 </span>
                     
                     &nbsp;&nbsp;<i
-                        class="bi bi-chat-left"></i><br>
+                        class="bi bi-chat-left"></i>
+                        <span class="p-1 mx-2 text-small" data-bs-toggle ="modal" data-bs-target="#likes<?=$post['id']?>" ><?=count($likes)?> comments</span>
+                        <br>
 
                         
                 </h4>
 
                 <span class="p-1 mx-2" data-bs-toggle ="modal" data-bs-target="#likes<?=$post['id']?>" ><?=count($likes)?> likes</span>
+                
                     <?php
                     if ($post['post_text']){
                         ?>

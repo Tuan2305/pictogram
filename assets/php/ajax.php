@@ -57,8 +57,19 @@ if(isset($_GET['addcomment'])){
     $comment = $_POST['comment'];
     
         if(addComment($post_id, $comment)){
-       
+            $cuser = getUser($_SESSION['userdata']['id']);
             $response['status'] = true;
+            $response['comment'] = '<div class="d-flex align-items-center p-2 border-bottom">
+                                    <div>
+                                        <img src="assets/images/profile/' .$cuser['profile_pic'].'" alt="" height="50" class="rounded-circle border">
+                                    </div>
+                                    <div>&nbsp;&nbsp;&nbsp;</div>
+                                    <div class="d-flex flex-column justify-content-start align-items-center">
+                                        <h6 style="margin: 0px; font-size: small;"><a href="?u=' .$cuser['username'].'" class = "text-decoration-none text-dark">@'.$cuser['username'].'</a></h6>
+                                        <p style="margin:0px;" class="text-muted">@.'. $_POST['comment'].'</p>
+                                    </div>
+                                </div>';
+            
         }
         else{
             $response['status'] = false;

@@ -64,9 +64,9 @@ global $user;
     <?php } ?>
     <div class="gallery d-flex flex-wrap gap-2 mb-4">
         <?php foreach ($profile_post as $post) { ?>
-            <img src="assets/images/posts/<?=$post['post_img']?>" data-bs-toggle="modal" data-bs-target="#postwiew<?=$post['id']?>" width="300px" class="rounded" />
+            <img src="assets/images/posts/<?=$post['post_img']?>" data-bs-toggle="modal" data-bs-target="#postview<?=$post['id']?>" width="300px" class="rounded" />
 
-            <div class="modal fade" id="postwiew<?=$post['id']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="postview<?=$post['id']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body d-flex p-0">
@@ -91,7 +91,7 @@ global $user;
                                     $comments = getComments($post['id']);
                                     if (count($comments) < 1) {
                                     ?>
-                                        <p class="text-center text-muted">No comments yet</p>
+                                        <p class="p-3 text-center my-2 nce" >No comments yet</p>
                                     <?php
                                     }
 
@@ -164,6 +164,7 @@ global $user;
                         <div class="d-flex align-items-center p-2">
                             <div><img src="assets/images/profile/<?=$fuser['profile_pic']?>" alt="" height="40" class="rounded-circle border"></div>
                             <div>&nbsp;&nbsp;</div>
+                            
                             <div class="d-flex flex-column justify-content-center">
                                 <a href='?u=<?=$fuser['username']?>' class="text-decoration-none text-dark">
                                     <h6 style="margin: 0px; font-size: small;"><?=$fuser['first_name']?> <?=$fuser['last_name']?></h6>

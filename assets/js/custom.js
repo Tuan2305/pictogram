@@ -143,7 +143,8 @@ $(".add-comment").click(function(){
 
     var post_id_v =$(this).data('postId');
     var cs = $(this).data('cs');
-    var button =this;
+
+    var page = $(this).data('page');
     $(button).attr('disabled', true);
     $(button).siblings('.comment-input').attr('disabled', true);  
     
@@ -162,10 +163,14 @@ $(".add-comment").click(function(){
                 $(button).siblings('.comment-input').val('');
                 
                 $("#" + cs).append(response.comment);
+                $('nce').hide();
+                if (page == 'profile'){
+                    location.reload();
+                }
             }
             else{
                 $(button).attr('disabled', false);
-                alert('something is wrong, try again after sometime');
+                $(button).siblings('.comment-input').attr('disabled', false);
             }
         }
     }); 

@@ -92,6 +92,7 @@ $(".like_btn").click(function(){
                 // $(button).html('<i class ="bi bi-heart-fill" ></i> Liked');
                 $(button).hide();
                 $(button).siblings('.unlike_btn').show();
+                location.reload();  
             }
             else{ 
                 $(button).attr('disabled', false);
@@ -119,7 +120,7 @@ $(".unlike_btn").click(function(){
                 $(button).attr('disabled', false);
                 $(button).hide();
                 $(button).siblings('.like_btn').show();
-
+                location.reload();
             }
             else{
                 $(button).attr('disabled', false);
@@ -130,7 +131,43 @@ $(".unlike_btn").click(function(){
   
 });
 
+// for adding comment
 
+$(".add-comment").click(function(){
+    var button =this;
+    var comment_v = $(button).siblings('.comment-input').val(); 
+    if(comment_v == ''){
+        // alert('Please enter the comment');
+        return 0;
+    }
+
+    var post_id_v =$(this).data('postId');
+    var button =this;
+    $(button).attr('disabled', true);
+    $(button).siblings('.comment-input').attr('disabled', true);  
+    
+    $.ajax({ 
+        url: 'assets/php/ajax.php?addcomment',
+        method: 'post',
+        dataType:'json',
+        data: {post_id: post_id_v, comment: comment_v},
+        success: function(response){
+
+
+            console.log(response);
+            if(response.status){
+                $(button).attr('disabled', false);
+                $(button).siblings('.comment-input').attr('disabled', false);
+                $(button).siblings('.comment-input').val('');
+            }
+            else{
+                $(button).attr('disabled', false);
+                alert('something is wrong, try again after sometime');
+            }
+        }
+    }); 
+  
+});
 
 
 

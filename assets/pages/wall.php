@@ -49,7 +49,8 @@ foreach($posts as $post){
 
                         
                 </h4>
-                <span class="p-1 mx-2"> <?=count($likes)?> likes</span>
+
+                <span class="p-1 mx-2" data-bs-toggle ="modal" data-bs-target="#likes<?=$post['id']?>" ><?=count($likes)?> likes</span>
                     <?php
                     if ($post['post_text']){
                         ?>
@@ -59,8 +60,6 @@ foreach($posts as $post){
                         <?php
                     }
                     ?>
-
-
                 <div class="input-group p-2 <?=$post['post_text']?'border-top':''?>">
                     <input type="text" class="form-control rounded-0 border-0" placeholder="say something.."
                         aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -69,6 +68,56 @@ foreach($posts as $post){
                 </div>
 
             </div>
+
+            <div class="modal fade" id="likes<?=$post['id']?>" tabindex="-1" aria-labelledby="follower_list_Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Likes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+
+            <div class="modal-body">
+                <?php
+                if (count($likes) < 1){
+                    echo "<p class = 'p-2 bg-white border rounder text-center'>No Likes Yet</p>";
+                }
+                foreach ($likes as $f) {
+                    $fuser = getUser($f['user_id']);
+                    $fbtn = '';
+                    if (checkFollowStatus($f['user_id'])) {
+                        $fbtn = '<button class="btn btn-sm btn-danger unfollowbtn" data-user-id =' . $fuser['id'] . '>Unfollow</button>';
+                    } else if ($user['id'] == $f['user_id']) {
+                        $fbtn = '';
+                    } else {
+                        $fbtn = '<button class="btn btn-sm btn-primary followbtn" data-user-id =' . $fuser['id'] . '>Follow</button>';
+                    }
+                ?>
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center p-2">
+                            <div><img src="assets/images/profile/<?=$fuser['profile_pic']?>" alt="" height="40" class="rounded-circle border"></div>
+                            <div>&nbsp;&nbsp;</div>
+                            <div class="d-flex flex-column justify-content-center">
+                                <a href='?u=<?=$fuser['username']?>' class="text-decoration-none text-dark">
+                                    <h6 style="margin: 0px; font-size: small;"><?=$fuser['first_name']?> <?=$fuser['last_name']?></h6>
+                                </a>
+                                <p style="margin:0px;font-size:small" class="text-muted">@<?=$fuser['username']?></p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <?=$fbtn?>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+
                     <?php
                 }
             ?>

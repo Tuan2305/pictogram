@@ -51,3 +51,18 @@ if(isset($_GET['unlike'])){
     }
    
 }
+// comment
+if(isset($_GET['addcomment'])){
+    $post_id = $_POST['post_id'];
+    $comment = $_POST['comment'];
+    
+        if(addComment($post_id, $comment)){
+       
+            $response['status'] = true;
+        }
+        else{
+            $response['status'] = false;
+        }
+        echo json_encode($response);
+   
+}

@@ -31,8 +31,17 @@ function unlike($post_id){
     $query = "DELETE FROM likes WHERE  user_id = $current_user && post_id = $post_id";
     return mysqli_query($db, $query);
 }
+
+//function for create comment
+function addComment($post_id, $comment){
+    global $db;
+    $comment = mysqli_real_escape_string($db, $comment);
+    $current_user = $_SESSION['userdata']['id'];
+    $query = "INSERT INTO comments(user_id,post_id,comment) VALUES($current_user, $post_id, '$comment')";
+    return mysqli_query($db, $query);
+}
  
-// function for check like status
+// function for check comment
 function checkLikeStatus($post_id){
     global $db;
     $current_user = $_SESSION['userdata']['id'];
@@ -42,6 +51,16 @@ function checkLikeStatus($post_id){
     $result = mysqli_fetch_assoc($run); // Lấy dữ liệu hàng đầu tiên dưới dạng mảng kết hợp
     return $result['row']; // Trả về giá trị của cột 'row'
 }
+
+
+// function for getting likes count
+function getComments($post_id){
+    global $db;
+    $query = "SELECT * FROM comments WHERE post_id= $post_id ";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_all($run,true);
+}
+
 
 // function for getting likes count
 function getLikes($post_id){

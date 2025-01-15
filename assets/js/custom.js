@@ -177,7 +177,31 @@ $(".add-comment").click(function(){
   
 });
 
+$(document).ready(function() {
+    // Fetch notifications
+    $('#notificationModal').on('shown.bs.modal', function () {
+        $.ajax({
+            url: 'assets/php/actions.php',
+            method: 'GET',
+            data: { action: 'getNotifications' },
+            success: function(response) {
+                $('#notificationContent').html(response);
+            }
+        });
+    });
 
+    // Fetch messages
+    $('#messageModal').on('shown.bs.modal', function () {
+        $.ajax({
+            url: 'assets/php/actions.php',
+            method: 'GET',
+            data: { action: 'getMessages' },
+            success: function(response) {
+                $('#messageContent').html(response);
+            }
+        });
+    });
+});
 
 
     

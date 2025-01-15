@@ -2,6 +2,26 @@
 
 require_once 'functions.php';
 
+
+if(isset($_GET['test'])){
+    $active_chat_ids = getActiveChatUserIds();
+    print_r($active_chat_ids);
+}   
+
+
+if(isset($_GET['unblock'])){
+    $user_id = $_POST['user_id'];
+    if(unblockUser($user_id)){
+        $response['status'] = true;
+    }
+    else{
+        $response['status'] = false;
+    }
+    echo json_encode($response);
+}
+
+
+
 if(isset($_GET['follow'])){
     $user_id = $_POST['user_id'];
     
@@ -76,4 +96,31 @@ if(isset($_GET['addcomment'])){
         }
         echo json_encode($response);
    
+}
+
+if (isset($_GET['getNotifications'])) {
+    error_log("Fetching notifications for user: " . $_SESSION['userdata']['id']);
+    $user_id = $_SESSION['userdata']['id'];
+    $notifications = getNotifications($user_id);
+    foreach ($notifications as $not) {
+        $time = $not['created_at'];
+        $fuser = getUser($not['from_user_id']);
+        $post = '';
+        if ($not['post_id']) {
+            $post = 'data-bs-toggle="modal" data-bs-target="#postview' . $not['post_id'] . '"';
+        }
+        echo "
+        <div class='d-flex justify-content-between border-bottom'>
+            <div class='d-flex align-items-center p-2'>
+                <div><img src='assets/images/profile/{$fuser['profile_pic']}' alt='' height='30' class='rounded-circle border'></div>
+                <div class='ms-2'>
+                    <p class='mb-0'>{$fuser['username']} {$not['message']}</p>
+                    <small class='text-muted'>{$time}</small>
+                </div>
+            </div>
+            <div class='p-2'>
+                <button class='btn btn-sm btn-primary' {$post}>View</button>
+            </div>
+        </div>";
+    }
 }

@@ -2,7 +2,7 @@
     <div class="col-4 bg-white border rounded p-4 shadow-sm">
         <form method="post" action="assets/php/actions.php?login">
             <div class="d-flex justify-content-center">
-                <img class="mb-4" src="assets/images/pictogram.png" alt="" height="50">
+                <img class="mb-4" src="assets/images/instagram.png" alt="" height="50">
             </div>
             
 

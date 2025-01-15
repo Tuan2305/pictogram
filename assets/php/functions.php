@@ -21,7 +21,15 @@ function like($post_id){
     global $db;
     $current_user = $_SESSION['userdata']['id'];
     $query = "INSERT INTO likes(post_id,user_id) VALUES($post_id, $current_user)";
-    return mysqli_query($db, $query);
+    $result = mysqli_query($db, $query);
+
+    if ($result) {
+        // Create notification
+        $post_owner_id = getPostOwnerId($post_id);
+        createNotification($post_owner_id, $current_user, $post_id, 'liked your post');
+    }
+
+    return $result;
 }
 
 // function for unlike post
@@ -38,7 +46,15 @@ function addComment($post_id, $comment){
     $comment = mysqli_real_escape_string($db, $comment);
     $current_user = $_SESSION['userdata']['id'];
     $query = "INSERT INTO comments(user_id,post_id,comment) VALUES($current_user, $post_id, '$comment')";
-    return mysqli_query($db, $query);
+    $result = mysqli_query($db, $query);
+
+    if ($result) {
+        // Create notification
+        $post_owner_id = getPostOwnerId($post_id);
+        createNotification($post_owner_id, $current_user, $post_id, 'commented on your post');
+    }
+
+    return $result;
 }
  
 // function for check comment
@@ -69,6 +85,115 @@ function getLikes($post_id){
     $run = mysqli_query($db,$query);
     return mysqli_fetch_all($run,true);
 }
+// Function to create a notification
+function createNotification($user_id, $from_user_id, $post_id, $message) {
+    global $db;
+   
+    $query = "INSERT INTO notifications (user_id, from_user_id, post_id, message) VALUES ($user_id, $from_user_id, $post_id, '$message')";
+    mysqli_query($db, $query);
+}
+// Function to get post owner ID
+function getPostOwnerId($post_id) {
+    global $db;
+    $query = "SELECT user_id FROM posts WHERE id = $post_id";
+    $result = mysqli_query($db, $query);
+    $post = mysqli_fetch_assoc($result);
+    return $post['user_id'];
+}
+
+// Function to get notifications
+function getNotifications($user_id) {
+    global $db;
+    $query = "SELECT * FROM notifications WHERE user_id = $user_id ORDER BY created_at DESC";
+    $result = mysqli_query($db, $query);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+// function getting id chat of user
+
+function getActiveChatUserIds(){
+    global $db;
+    $current_user_id = $_SESSION['userdata']['id'];
+    $query = "SELECT from_user_id, to_user_id FROM message WHERE to_user_id = $current_user_id || from_user_id = $current_user_id";
+    $run = mysqli_query($db,$query);
+    $data =  mysqli_fetch_all($run,true);
+    $ids = array();
+    foreach($data as $ch){
+        if($ch['from_user_id'] != $current_user_id && !in_array($ch['from_user_id'],$ids)){
+            $ids[] = $ch['from_user_id'];
+        
+        if($ch['to_user_id'] != $current_user_id && !in_array($ch['to_user_id'],$ids)){
+            $ids[] = $ch['to_user_id'];
+        }
+        return $ids;
+    }
+}
+}
+
+// Function to unblock a user
+function unblockUser($blocked_user_id) {
+    global $db;
+    $current_user = $_SESSION['userdata']['id'];
+    $query = "DELETE FROM blocked_users WHERE user_id = $current_user AND blocked_user_id = $blocked_user_id";
+    return mysqli_query($db, $query);
+}
+
+
+
+//function of getting messages
+// function getMessages($user_id) {
+//     global $db;
+//     $query = "SELECT * FROM messages WHERE user_id = $user_id ORDER BY created_at DESC";
+//     $result = mysqli_query($db, $query);
+//     $messages = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//     return $messages;
+// }
+
+// function timeAgo($datetime) {
+//     $time = strtotime($datetime);
+//     $time_difference = time() - $time;
+
+//     if ($time_difference < 1) {
+//         return 'just now';
+//     }
+
+//     $condition = array(
+//         12 * 30 * 24 * 60 * 60 => 'year',
+//         30 * 24 * 60 * 60 => 'month',
+//         24 * 60 * 60 => 'day',
+//         60 * 60 => 'hour',
+//         60 => 'minute',
+//         1 => 'second'
+//     );
+
+//     foreach ($condition as $secs => $str) {
+//         $d = $time_difference / $secs;
+
+//         if ($d >= 1) {
+//             $t = round($d);
+//             return $t . ' ' . $str . ($t > 1 ? 's' : '') . ' ago';
+//         }
+//     }
+// }
+// Function to get the count of unread notifications
+function getUnreadNotificationsCount() {
+    global $db;
+    $current_user = $_SESSION['userdata']['id'];
+    $query = "SELECT COUNT(*) as count FROM notifications WHERE user_id = $current_user AND is_read = 0";
+    $result = mysqli_query($db, $query);
+    $data = mysqli_fetch_assoc($result);
+    return $data['count'];
+}
+
+// Function to search for users
+function searchUsers($search_term) {
+    global $db;
+    $query = "SELECT * FROM users WHERE username LIKE '%$search_term%'";
+    $result = mysqli_query($db, $query);
+    $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return $users;
+}
+
+
 
 //function for unfollow the user
 function unfollowUser($user_id){

@@ -179,3 +179,10 @@ if (isset($_GET['addpost'])){
 
 }
 
+// Fetch notifications for the logged-in user
+if (isset($_SESSION['userdata']['id'])) {
+    $user_id = $_SESSION['userdata']['id'];
+    $notifications = getNotifications($user_id);
+} else {
+    $notifications = [];
+}

@@ -102,18 +102,20 @@ function getPostOwnerId($post_id) {
 }
 
 // Function to get notifications
-function getNotifications($user_id) {
+function getNotifications() {
     global $db;
-    $query = "SELECT * FROM notifications WHERE user_id = $user_id ORDER BY created_at DESC";
+    $current_user = $_SESSION['userdata']['id'];
+    $query = "SELECT * FROM notifications WHERE user_id = $current_user ORDER BY id DESC";
     $result = mysqli_query($db, $query);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
+
 }
 // function getting id chat of user
 
 function getActiveChatUserIds(){
     global $db;
     $current_user_id = $_SESSION['userdata']['id'];
-    $query = "SELECT from_user_id, to_user_id FROM message WHERE to_user_id = $current_user_id || from_user_id = $current_user_id";
+    $query = "SELECT from_user_id, to_user_id FROM messages WHERE to_user_id = $current_user_id || from_user_id = $current_user_id ORDER BY id DESC";
     $run = mysqli_query($db,$query);
     $data =  mysqli_fetch_all($run,true);
     $ids = array();
@@ -124,9 +126,29 @@ function getActiveChatUserIds(){
         if($ch['to_user_id'] != $current_user_id && !in_array($ch['to_user_id'],$ids)){
             $ids[] = $ch['to_user_id'];
         }
-        return $ids;
+            return $ids;
+        }
     }
 }
+
+//function of getting messages
+function getMessages($user_id) {
+    global $db;
+    $current_user_id = $_SESSION['userdata']['id'];
+    $query = "SELECT * FROM messages WHERE (to_user_id = $current_user_id && from_user_id = $user_id) || (from_user_id = $current_user_id && to_user_id = $user_id) ORDER BY id DESC";  
+    $run = mysqli_query($db,$query);
+    return  mysqli_fetch_all($run,true);
+  
+}
+
+function getallMessages(){
+    $activate_chat_ids = getActiveChatUserIds();
+    $conversation = array();
+    foreach($activate_chat_ids as $index => $id){
+        $conversation[$index]['user_id'] = $id;
+        $conversation[$index]['messages'] = getMessages($id);
+    }
+    return $conversation;
 }
 
 // Function to unblock a user
@@ -139,14 +161,8 @@ function unblockUser($blocked_user_id) {
 
 
 
-//function of getting messages
-// function getMessages($user_id) {
-//     global $db;
-//     $query = "SELECT * FROM messages WHERE user_id = $user_id ORDER BY created_at DESC";
-//     $result = mysqli_query($db, $query);
-//     $messages = mysqli_fetch_all($result, MYSQLI_ASSOC);
-//     return $messages;
-// }
+
+
 
 // function timeAgo($datetime) {
 //     $time = strtotime($datetime);

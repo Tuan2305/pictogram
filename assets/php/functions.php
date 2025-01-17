@@ -85,6 +85,14 @@ function getLikes($post_id){
     $run = mysqli_query($db,$query);
     return mysqli_fetch_all($run,true);
 }
+
+function gettime(){
+    return date('H:i -(F jS, Y)',strtotime('$date'));
+}
+
+
+
+
 // Function to create a notification
 function createNotification($user_id, $from_user_id, $post_id, $message) {
     global $db;
@@ -122,13 +130,12 @@ function getActiveChatUserIds(){
     foreach($data as $ch){
         if($ch['from_user_id'] != $current_user_id && !in_array($ch['from_user_id'],$ids)){
             $ids[] = $ch['from_user_id'];
-        
+        }
         if($ch['to_user_id'] != $current_user_id && !in_array($ch['to_user_id'],$ids)){
             $ids[] = $ch['to_user_id'];
         }
-            return $ids;
-        }
     }
+    return $ids;
 }
 
 //function of getting messages

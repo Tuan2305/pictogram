@@ -83,11 +83,7 @@
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">Messages</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body" id = "chatlist" >
-      
-
-        
-       
+    <div class="offcanvas-body" id="chatlist" >
     </div>
 </div>
 
@@ -98,6 +94,7 @@
 
 <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/jquery-3.7.1.js?>"></script>
+<script src="assets/js/jquery.timeago.js?>"></script>
 <script src="assets/js/custom.js?v=<?=time()?>"></script>
 </body>
 

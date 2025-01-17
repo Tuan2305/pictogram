@@ -3,37 +3,34 @@
 require_once 'functions.php';
 
 
-if(isset($_GET['test'])){
+if(isset($_GET['getmessages'])){
     $chats = getallMessages();
     $chatlist = "";
     foreach($chats as $chat){
         $ch_user = getUser($chat['user_id']);
-        $chatlist.='
-        <div class="d-flex justify-content-between border-bottom">
-                <div class="d-flex align-items-center p-2">
-                    <div><img src="assets/images/profile/'.$ch_user['profile_pic'].'" alt="" height="30" class="rounded-circle border"></div>
-                </div>
-                <div>&nbsp;&nbsp;</div>
-
-                <div class="d-flex flex-column justify-content-center" <?=$post?>>
-                    <a href="#" class="text-decoration-none text-dark"><h6 style="margin: 0px; font-size:small;">'.$ch_user['first_name'].''.$ch_user['last_name'].'</h6></a>
-                    <p style="margin: 0px; font-size:small" class =" ">@'.$ch_user['username'].' - '.$chat['messages'][0]['msg'].'</p>
+        $seen = false;
+        
+        if($chat['messages'][0]['read_status'] == 1){
+            $seen = true;
+        }
+        $chatlist .= '
+            <div class="d-flex justify-content-start align-items-center border-bottom p-2">
+                <div><img src="assets/images/profile/' . $ch_user['profile_pic'] . '" alt="" height="40" width = "40"class="rounded-circle border"></div>
+                <div class="ms-3">
+                    <a href="#" class="text-decoration-none text-dark">
+                        <h6 style="margin: 0px; font-size:small;">' . $ch_user['first_name'] . ' ' . $ch_user['last_name'] . '</h6>
                     </a>
-                    <time style="font-size:small" class="timeago text-small" datetime="'.$chat['messages'][0]['created_at'].'"></time>
+                    <p style="margin: 0px; font-size:small" class =" ">' . $chat['messages'][0]['msg'] . '</p>
+                    <time style="font-size:small" class="timeago text-small" datetime="' . $chat['messages'][0]['created_at'].'">'.gettime($chat['messages'][0]['created_at']).'</time>
                 </div>
-                <div class="d-flex align-items-center">
-                    <?php
-    
-                        <div class="p-1 bg-primary rounded-circle"></div>
-                    <?php
-                   
-                        <span class="badge bg-danger">Post Deleted</span>
-                    
-                    
-                </div>
+                <div class="d-flex align-items-center">    
+                    <div class="p-1 bg-primary rounded-circle '.($seen ? 'd-none':'').'"></div> 
+
+                    </div>
             </div>';
     }
-echo $chatlist;
+$json['chatlist'] = $chatlist; 
+echo json_encode($json);
 }   
 
 

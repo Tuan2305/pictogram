@@ -263,20 +263,24 @@ $(".unblockbtn").click(function() {
     });
 });
 
+var chatting_user_id = 9;   
+
 
 function synmsg(){
     $.ajax({
         url: 'assets/php/ajax.php?getmessages',
         method: 'post',
         dataType: 'json',
+        data:{chatter_id: chatting_user_id },
         success: function(response){
             console.log(response);
             $("#chatlist").html(response.chatlist);
+            $("#user_chat").html(response.chat);
         }
     });
 
 }
-    
+
 synmsg();
 
 setInterval(() =>{

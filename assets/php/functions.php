@@ -87,7 +87,8 @@ function getLikes($post_id){
 }
 
 function gettime(){
-    return date('H:i -(F jS, Y)',strtotime('$date'));
+    date_default_timezone_set('Asia/Ho_Chi_Minh'); // Set the timezone to Vietnam
+    return date('H:i -(F jS, Y)', time());
 }
 
 

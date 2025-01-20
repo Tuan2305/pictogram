@@ -92,24 +92,22 @@
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><img src = "assets/images/profile/default_profile.jpg" id = "chatter_pic" height="40" width="40" class="m-1 rounded-circle border" ><span id = "chatter_name"></span>(@<span id = "chatter_username"> loading...</span>)</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body d-flex flex-column gap-2" id= "user_chat">
-        <div class = "py-2 px-3 border rounded shadow-sm col-8 d-inline-block">
-            hiii<br>
-            <span style = "font-size:small" class="text-muted" > 12:12</span>
-        </div>
-        <div class = "py-2 px-3 border rounded shadow-sm col-8 align-self-end d-inline-block bg-primary text-light">
-            chopppppp<br>
-            <span style = "font-size:small" class="text-light" > 12:12</span>
-        </div>
+      <div class="modal-body d-flex flex-column-reverse gap-2" id= "user_chat">
+        loading..
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+       <div class ="input-group p-2">
+        <input type="text" class="form-control rounded-0 border-0" id = "msginput" placeholder="say something" 
+            aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-primary rounded-0 border-0" id = "sendmsg" data-user-id ="0" type="button"
+        >Send</button>
+       </div> 
+        
       </div>
     </div>
   </div>

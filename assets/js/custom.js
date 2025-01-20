@@ -263,8 +263,23 @@ $(".unblockbtn").click(function() {
     });
 });
 
-var chatting_user_id = 9;   
+var chatting_user_id = 0;
 
+$(".chatlist_item").click();
+
+function popchat(user_id){
+    $("#user_chat").html(`<div class="spinner-border text-center" role="status">
+ 
+</div>`);
+
+    $("#chatter_username").text('loading...');
+    $("#chatter_name").text('');    
+    $("#chatter_pic").attr('src','assets/images/profile/default_profile.jpg' );
+    chatting_user_id = user_id;
+    $("#sendmsg").attr('data-user-id', user_id);
+    console.log(user_id);
+
+}
 
 function synmsg(){
     $.ajax({
@@ -275,7 +290,14 @@ function synmsg(){
         success: function(response){
             console.log(response);
             $("#chatlist").html(response.chatlist);
-            $("#user_chat").html(response.chat);
+            
+            if (chatting_user_id != 0){
+                $("#user_chat").html(response.chat.msgs);
+                $("#chatter_username").text(response.chat.userdata.username);
+                $("#chatter_name").text(response.chat.userdata.first_name + ' ' + response.chat.userdata.last_name);    
+                $("#chatter_pic").attr('src','assets/images/profile/' + response.chat.userdata.profile_pic);
+            }
+            
         }
     });
 

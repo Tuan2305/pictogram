@@ -113,7 +113,7 @@ global $user;
                                         </div>
                                         <?php
                                     }
-                                    ?>
+                                    ?>   
                                 </div>
                                 <div class="input-group p-2 border-top">
                                     <input type="text" class="form-control rounded-0 border-0 comment-input" placeholder="say something.." 

@@ -14,12 +14,12 @@ if(isset($_GET['getmessages'])){
             $seen = true;
         }
         $chatlist .= '
-<div class="d-flex justify-content-between border-bottom"> 
+<div class="d-flex justify-content-between border-bottom" data-bs-toggle="modal" data-bs-target="#chatbox" onclick = "popchat('.$chat['user_id'].')" > 
             <div class ="d-flex align-items-center p-2">
                 <div><img src="assets/images/profile/'.$ch_user['profile_pic'].'" alt="" height="40" width = "40"class="rounded-circle border">
                 </div>
                 <div>&nbsp;&nbsp;</div>
-                <div class="d-flex flex-column justify-content-center" data-bs-toggle="modal" data-bs-target="#chatbox">
+                <div class="d-flex flex-column justify-content-center" >
                     <a href="#" class="text-decoration-none text-dark">
                         <h6 style="margin: 0px; font-size:small;">' . $ch_user['first_name'] . ' ' . $ch_user['last_name'] . '</h6>
                     </a>
@@ -54,13 +54,17 @@ else{
         </div>';
 
 }
-$json['chat'] = $chatmsg;
+$json['chat']['msgs'] = $chatmsg;
+$json['chat']['userdata'] = getUser($_POST['chatter_id']);
+}
+else{
+    $json['chat']['msgs'] = '<div class="spinner-border" role="status">
+
+</div>';
 }
 
 echo json_encode($json);
 }   
-
-'1:24:31'
 
 if(isset($_GET['unblock'])){
     $user_id = $_POST['user_id'];

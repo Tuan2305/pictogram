@@ -86,10 +86,6 @@ function getLikes($post_id){
     return mysqli_fetch_all($run,true);
 }
 
-function gettime(){
-    date_default_timezone_set('Asia/Ho_Chi_Minh'); // Set the timezone to Vietnam
-    return date('H:i -(F jS, Y)', time());
-}
 
 
 
@@ -149,6 +145,37 @@ function getMessages($user_id) {
   
 }
 
+function sendMessage($user_id, $msg) {
+    global $db;
+    $current_user_id = $_SESSION['userdata']['id'];
+    $query = "INSERT INTO messages(from_user_id, to_user_id, msg) VALUES($current_user_id, $user_id, '$msg')";
+    updateMessageReadStatus($user_id);
+    return mysqli_query($db, $query);
+     
+}
+
+function newMsgCount(){
+    global $db; 
+    $current_user_id = $_SESSION['userdata']['id'];
+    $query = "SELECT COUNT(*) as row FROM messages WHERE to_user_id = $current_user_id && read_status = 0";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_assoc($run)['row'];
+}
+
+function updateMessageReadStatus($user_id){
+    $cu_user_id = $_SESSION['userdata']['id'];
+    global $db;
+
+    $query = "UPDATE messsages SET read_status = 1 WHERE to_user_id = $cu_user_id && from_user_id = $user_id";
+    return mysqli_query($db, $query);
+}
+
+
+function gettime($date){
+    // date_default_timezone_set('Asia/Ho_Chi_Minh'); // Set the timezone to Vietnam
+    return date('H:i -(F jS, Y)', strtotime($date));
+}
+
 function getallMessages(){
     $activate_chat_ids = getActiveChatUserIds();
     $conversation = array();
@@ -157,6 +184,19 @@ function getallMessages(){
         $conversation[$index]['messages'] = getMessages($id);
     }
     return $conversation;
+}
+
+function show_time($time){
+    return '<time style="font-size:small" class="timeago text-small" datetime="'.$time.'">'.gettime($time).'</time>';
+
+}
+
+function setNotificationStatusAsRead() {
+    $cu_user_id = $_SESSION['userdata']['id'];
+    global $db;
+
+    $query = "UPDATE notifications SET read_status = 1 WHERE to_user_id = $cu_user_id";
+    return mysqli_query($db, $query);
 }
 
 // Function to unblock a user

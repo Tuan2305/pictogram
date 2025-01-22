@@ -277,9 +277,41 @@ function popchat(user_id){
     $("#chatter_pic").attr('src','assets/images/profile/default_profile.jpg' );
     chatting_user_id = user_id;
     $("#sendmsg").attr('data-user-id', user_id);
-    console.log(user_id);
+
 
 }
+
+$("#sendmsg").click(function(){
+    var user_id = chatting_user_id;
+    var msg = $("#msginput").val();
+    console.log(user_id);
+    if(!msg){
+        return 0;
+    };
+
+    $("#sendmsg").attr('disabled', true); 
+    $("#msginput").attr('disabled', true);
+
+    $.ajax({
+        url: 'assets/php/ajax.php?sendmessage',
+        method: 'post',
+        dataType: 'json',
+        data:{user_id: user_id, msg: msg},
+        success: function(response){
+            if(response.status){
+                $("#sendmsg").attr('disabled', false); 
+                $("#msginput").attr('disabled', false);
+                $("#msginput").val('');
+            }
+            else{
+                alert('Something went wrong, please try again later.'); 
+            }
+            
+        }
+    });
+ 
+}
+);
 
 function synmsg(){
     $.ajax({
@@ -288,10 +320,19 @@ function synmsg(){
         dataType: 'json',
         data:{chatter_id: chatting_user_id },
         success: function(response){
-            console.log(response);
+            
             $("#chatlist").html(response.chatlist);
             
-            if (chatting_user_id != 0){
+            if(response.newmsgcount == 0){
+                $($msgcounter).hide();
+            }
+            else{
+                $($msgcounter).show();
+                $($msgcounter).html("<small>"+response.newmsgcount +"</small>")
+            }
+           
+
+             if (chatting_user_id != 0){
                 $("#user_chat").html(response.chat.msgs);
                 $("#chatter_username").text(response.chat.userdata.username);
                 $("#chatter_name").text(response.chat.userdata.first_name + ' ' + response.chat.userdata.last_name);    

@@ -1,6 +1,15 @@
 <?php
-
 require_once 'functions.php';
+
+if (isset($_GET['sendmessage'])) {
+    if(sendMessage($_POST['user_id'], $_POST['msg'])){
+        $response['status'] = true;
+    }
+    else{
+        $response['status'] = false;
+    }
+    echo json_encode($response);
+}
 
 
 if(isset($_GET['getmessages'])){
@@ -10,7 +19,7 @@ if(isset($_GET['getmessages'])){
         $ch_user = getUser($chat['user_id']);
         $seen = false;
         
-        if($chat['messages'][0]['read_status'] == 1){
+        if($chat['messages'][0]['read_status'] == 1 || $chat['messages'][0]['from_user_id'] ==$_SESSION['userdata']['id']){
             $seen = true;
         }
         $chatlist .= '
@@ -58,11 +67,12 @@ $json['chat']['msgs'] = $chatmsg;
 $json['chat']['userdata'] = getUser($_POST['chatter_id']);
 }
 else{
-    $json['chat']['msgs'] = '<div class="spinner-border" role="status">
+    $json['chat']['msgs'] = '<div class="spinner-border text-center" role="status">
 
 </div>';
 }
 
+$json['newmsgcount'] = newMsgCount();
 echo json_encode($json);
 }   
 
